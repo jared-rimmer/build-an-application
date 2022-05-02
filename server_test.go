@@ -13,7 +13,7 @@ func TestGETPlayers(t *testing.T) {
 	PlayerServer(response, request)
 
 	got := response.Body.String()
-	want := 20
+	want := "20"
 
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
