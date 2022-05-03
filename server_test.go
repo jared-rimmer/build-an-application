@@ -24,7 +24,7 @@ func (s *StubPlayerStore) RecordWin(name string) {
 func TestLeague(t *testing.T) {
 
 	store := StubPlayerStore{}
-	server := &PlayerServer{&store}
+	server := NewPlayerServer(&store)
 
 	t.Run("returns 200 on  /league", func(t *testing.T) {
 
@@ -48,7 +48,7 @@ func TestGETPlayers(t *testing.T) {
 		nil,
 	}
 
-	server := &PlayerServer{&store}
+	server := NewPlayerServer(&store)
 
 	t.Run("returns the score for Pepper", func(t *testing.T) {
 
@@ -97,7 +97,7 @@ func TestStoreWins(t *testing.T) {
 		map[string]int{},
 		nil,
 	}
-	server := &PlayerServer{&store}
+	server := NewPlayerServer(&store)
 
 	t.Run("it records wins on POST", func(t *testing.T) {
 		player := "Pepper"
