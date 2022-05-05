@@ -1,6 +1,9 @@
 package main
 
 import (
+	"io"
+	"io/ioutil"
+	"os"
 	"strings"
 	"testing"
 )
@@ -41,6 +44,25 @@ func TestFileSystemStore(t *testing.T) {
 		assertScoreEquals(t, got, want)
 	})
 
+}
+
+func createTempFile(t testing.TB, initialdata string) (io.ReadWriteSeeker, func()) {
+	t.Helper()
+
+	tmpfile, err := ioutil.TempFile("", "db")
+
+	if err != nil {
+		t.Fatalf("could not create temp file %v", err)
+	}
+
+	tmpfile.Write([]byte(initialdata))
+
+	removeFile := func() {
+		tmpfile.Close()
+		os.Remove(tmpfile.Name())
+	}
+
+	return tmpfile, removeFile
 }
 
 func assertScoreEquals(t testing.TB, got, want int) {
